@@ -8,13 +8,13 @@ body {
         text-align: center;
 }
 
-.multiple-choice-buttons {
+.answer-buttons {
         background: purple;
         color: white;
         border: 2px solid gray;
         font-size: 25px;
 }
 
-#main-message {
+#message-area {
         font-size: 350%;
 }
