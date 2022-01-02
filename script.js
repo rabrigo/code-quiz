@@ -16,34 +16,41 @@ var currentQuestion = 1;
 // for each index.
 
 var questionArray = [ {
-question: "Commonly used data types DO NOT include:",
-choice1: "Strings", 
-choice2: "Boolean",
-choice3: "Alert",
-choice4: "Number",
-rightAnswer: "Alert"
+        question: "Commonly used data types DO NOT include:",
+        choice1: "Strings", 
+        choice2: "Boolean",
+        choice3: "Alert",
+        choice4: "Number",
+        rightAnswer: "Alert"
 }, {
-question: "The condition in an if / else statement is enclosed within _____.",
-choice1: "Quotes", 
-choice2: "Curly Brackets",
-choice3: "Parentheses",
-choice4: "Square Brackets",
-rightAnswer: "Parentheses"
+        question: "The condition in an if / else statement is enclosed within _____.",
+        choice1: "Quotes", 
+        choice2: "Curly Brackets",
+        choice3: "Parentheses",
+        choice4: "Square Brackets",
+        rightAnswer: "Parentheses"
 }, {
-question: "Arrays in JavaScript can be used to store _____.",
-choice1: "Numbers and Strings", 
-choice2: "Other Arrays",
-choice3: "Booleans",
-choice4: "All of the Above",
-rightAnswer: "All of the Above"
+        question: "Arrays in JavaScript can be used to store _____.",
+        choice1: "Numbers and Strings", 
+        choice2: "Other Arrays",
+        choice3: "Booleans",
+        choice4: "All of the Above",
+        rightAnswer: "All of the Above"
 }, {
-question: "String values must be enclosed within _____ when being assigned to variables.",
-choice1: "Commas", 
-choice2: "Curly Brackets",
-choice3: "Quotes",
-choice4: "Parentheses",
-rightAnswer: "Parentheses"
-} ];
+        question: "String values must be enclosed within _____ when being assigned to variables.",
+        choice1: "Commas", 
+        choice2: "Curly Brackets",
+        choice3: "Quotes",
+        choice4: "Parentheses",
+        rightAnswer: "Quotes"
+}, {
+        question: "A very useful tool used during development and debugging for printing content to the debugger is:",
+        choice1: "JavaScript", 
+        choice2: "Terminal / Bash",
+        choice3: "For Loops",
+        choice4: "console.log",
+        rightAnswer: "console.log"        
+}];
 
 // addClick();
 nextQuestion();
@@ -87,6 +94,7 @@ function nextQuestion() {
 }
 
 function clearQuestion() {
+        messageArea.textContent = "";
         buttonArea.removeChild(answerButton1);
         buttonArea.removeChild(answerButton2);
         buttonArea.removeChild(answerButton3);
@@ -98,7 +106,11 @@ function rightOrWrong() {
                 console.log("Correct!");
                 currentQuestion++;
                 clearQuestion();
-                nextQuestion();
+                if (currentQuestion < 5) {
+                        nextQuestion();
+                } else {
+                        messageArea.textContent = "Congrats you win!";
+                }
         } else {
                 console.log("Incorrect!");
         }
