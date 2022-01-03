@@ -8,6 +8,13 @@ body {
         text-align: center;
 }
 
+.start-button {
+        background: purple;
+        color: white;
+        border: 2px solid gray;
+        font-size: 25px;
+}
+
 .answer-buttons {
         background: purple;
         color: white;
