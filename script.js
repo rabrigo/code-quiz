@@ -1,10 +1,12 @@
 // TODO: create link to view high scores
 // TODO: correct/incorrect display
-// TODO: create a timer
 // TODO: record initials and clear highscore button
 
+var scoreArea = document.querySelector('#score-display');
+var timerArea = document.querySelector('#timer-display');
 var messageArea = document.querySelector('#message-area');
 var buttonArea = document.querySelector('#button-area');
+var seconds;
 var openingMessage;
 var questionText;
 var startButton;
@@ -66,14 +68,11 @@ function openingScreen() {
         startButton.addEventListener("click", nextQuestion);
 }
 
-function doNothing() {
-        messageArea.appendChild(document.createElement("p"));
-}
-
 function nextQuestion() {
         if (currentQuestion === 0) {
                 buttonArea.removeChild(startButton);
                 currentQuestion++;
+                startTimer();
                 nextQuestion();
         } else {
         // First button
@@ -105,6 +104,17 @@ function nextQuestion() {
         }
 }
 
+function startTimer() {
+        seconds = 60;
+        var theTimer = setInterval(function() {
+                seconds--;
+                timerArea.textContent = `Time remaining: ${seconds}`;
+                if (seconds === 0) {
+                        clearInterval(theTimer);
+                }
+        }, 1000);
+}
+
 function addClick() {
         // Initiates click capabilities
         answerButton1.addEventListener("click", rightOrWrong);
@@ -132,6 +142,7 @@ function rightOrWrong() {
                 }
         } else {
                 console.log("Incorrect!");
+                seconds-= 10;
         }
 }
 
