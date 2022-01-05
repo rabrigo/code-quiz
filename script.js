@@ -6,6 +6,7 @@ var scoreArea = document.querySelector('#score-display');
 var timerArea = document.querySelector('#timer-display');
 var messageArea = document.querySelector('#message-area');
 var buttonArea = document.querySelector('#button-area');
+var theTimer;
 var seconds;
 var openingMessage;
 var questionText;
@@ -70,11 +71,13 @@ function openingScreen() {
 
 function nextQuestion() {
         if (currentQuestion === 0) {
+                timerArea.textContent = "Time remaining: 60";
                 buttonArea.removeChild(startButton);
                 currentQuestion++;
                 startTimer();
                 nextQuestion();
         } else {
+
         // First button
         messageArea.textContent = questionArray[currentQuestion -1 ].question;
         answerButton1 = document.createElement("section");
@@ -106,13 +109,18 @@ function nextQuestion() {
 
 function startTimer() {
         seconds = 60;
-        var theTimer = setInterval(function() {
+        theTimer = setInterval(function() {
                 seconds--;
                 timerArea.textContent = `Time remaining: ${seconds}`;
-                if (seconds === 0) {
-                        clearInterval(theTimer);
-                }
+                if (seconds <= 0) {
+                        stopTimer();
+                } 
         }, 1000);
+}
+
+function stopTimer() {
+        timerArea.textContent = "Time remaining: 0";
+        clearInterval(theTimer);
 }
 
 function addClick() {
@@ -132,18 +140,62 @@ function clearQuestion() {
 
 function rightOrWrong() {
         if (this.textContent === questionArray[currentQuestion - 1].rightAnswer) {
-                console.log("Correct!");
-                currentQuestion++;
-                clearQuestion();
-                if (currentQuestion < 5) {
+                if (currentQuestion < questionArray.length) {
+                        clearQuestion();
+                        currentQuestion++;
                         nextQuestion();
                 } else {
-                        messageArea.textContent = "Congrats you win!";
+                        clearQuestion();                        
+                        youWin();
                 }
         } else {
-                console.log("Incorrect!");
-                seconds-= 10;
+                if (seconds >= 10) {
+                        seconds -= 10;
+                        console.log("Incorrect!");
+                } else {
+                        seconds = 0;
+                        clearQuestion();
+                        youLose();
+                }
         }
+}
+
+function youWin() {
+        // stop timer
+        // set message to winning screen
+        stopTimer();
+        messageArea.textContent = `Congrats you win! Your final score is: ${seconds}`;
+        var nameInput = document.createElement("input");
+        var submitButton = document.createElement("input");
+        nameInput.setAttribute("type", "text");
+        submitButton.setAttribute("type", "submit");
+        messageArea.appendChild(nameInput);
+        messageArea.appendChild(submitButton);
+
+        submitButton.addEventListener("click", function(event) {
+                var winnerName = nameInput.value;
+                localStorage.setItem("winnerName", JSON.stringify(winnerName));
+                console.log(winnerName);
+        })
+        // create event listener for submit button
+        // take a look at today's activities
+}
+
+function youLose() {
+        // stop timer
+        // set message to game over
+
+        stopTimer();
+        messageArea.textContent = `Game over`;
+
+        // insert try again button here
+}
+
+function viewHighscores() {
+        // stores scores locally 
+        // appends them to list
+        // sorts them
+        // show play again button
 }
 
 openingScreen();
