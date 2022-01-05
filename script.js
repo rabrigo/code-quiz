@@ -173,9 +173,12 @@ function youWin() {
         messageArea.appendChild(submitButton);
 
         submitButton.addEventListener("click", function(event) {
-                var winnerName = nameInput.value;
-                localStorage.setItem("winnerName", JSON.stringify(winnerName));
-                console.log(winnerName);
+                var nameAndScore = {
+                        name: nameInput.value,
+                        score: seconds, 
+                }
+                localStorage.setItem("winner", JSON.stringify(nameAndScore));
+                viewHighscores();
         })
         // create event listener for submit button
         // take a look at today's activities
@@ -196,6 +199,10 @@ function viewHighscores() {
         // appends them to list
         // sorts them
         // show play again button
+        var newScore = document.createElement("h5");
+        var theWinner = JSON.parse(localStorage.getItem("winner"));
+        newScore.textContent = `Name: ${theWinner.name} Score: ${theWinner.score}`;
+        messageArea.appendChild(newScore);
 }
 
 openingScreen();
