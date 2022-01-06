@@ -60,7 +60,7 @@ var questionArray = [ {
 function openingScreen() {
         messageArea.textContent = "Coding Quiz Challenge"
         openingMessage = document.createElement("p");
-        openingMessage.textContent = "Try to answer the following code-related questions within the itme limit. Keep in mind that incorrect answers will penalize your score and time by ten seconds!"
+        openingMessage.textContent = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score and time by ten seconds!"
         messageArea.appendChild(openingMessage);
         startButton = document.createElement("section");
         buttonArea.appendChild(startButton);
@@ -113,7 +113,7 @@ function startTimer() {
                 seconds--;
                 timerArea.textContent = `Time remaining: ${seconds}`;
                 if (seconds <= 0) {
-                        stopTimer();
+                        youLose();
                 } 
         }, 1000);
 }
@@ -154,7 +154,6 @@ function rightOrWrong() {
                         console.log("Incorrect!");
                 } else {
                         seconds = 0;
-                        clearQuestion();
                         youLose();
                 }
         }
@@ -164,13 +163,23 @@ function youWin() {
         // stop timer
         // set message to winning screen
         stopTimer();
-        messageArea.textContent = `Congrats you win! Your final score is: ${seconds}`;
+        messageArea.innerHTML = "Congrats you win! Your final score is: " + seconds + " Enter your name below to record your win. <br>";
         var nameInput = document.createElement("input");
         var submitButton = document.createElement("input");
         nameInput.setAttribute("type", "text");
         submitButton.setAttribute("type", "submit");
         messageArea.appendChild(nameInput);
         messageArea.appendChild(submitButton);
+
+        // resets question counter
+        currentQuestion = 0;
+
+        // play again button
+        startButton = document.createElement("section");
+        messageArea.appendChild(startButton);
+        startButton.classList.add('start-button');
+        startButton.textContent = "Play again";
+        startButton.addEventListener("click", openingScreen);
 
         submitButton.addEventListener("click", function(event) {
                 var nameAndScore = {
@@ -187,18 +196,22 @@ function youWin() {
 function youLose() {
         // stop timer
         // set message to game over
-
+        clearQuestion();
         stopTimer();
         messageArea.textContent = `Game over`;
 
-        // insert try again button here
+        // resets question counter
+        currentQuestion = 0;
+
+        // play again button
+        startButton = document.createElement("section");
+        messageArea.appendChild(startButton);
+        startButton.classList.add('start-button');
+        startButton.textContent = "Play again";
+        startButton.addEventListener("click", openingScreen);
 }
 
 function viewHighscores() {
-        // stores scores locally 
-        // appends them to list
-        // sorts them
-        // show play again button
         var newScore = document.createElement("h5");
         var theWinner = JSON.parse(localStorage.getItem("winner"));
         newScore.textContent = `Name: ${theWinner.name} Score: ${theWinner.score}`;
